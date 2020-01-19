@@ -11,12 +11,16 @@ module Test = {
 };
 
 module Greeting = {
-  let component = ReasonReact.statelessComponent("Greeting");
+  [@react.component]
+  let make = (~message) =>
+    ReasonReact.string(message);
+};
 
-  let make = (~message, _) => {
-    ...component,
-    render: (_) => <div>{ReasonReact.string(message)}</div>,
-  };
+module FireEventClick = {
+  [@react.component]
+  let make = (~clickFx) => {
+    <div onClick=clickFx />
+  }
 };
 
 external unsafeAsElement : Dom.node => Dom.element = "%identity";
@@ -38,6 +42,17 @@ describe("ReactTestingLibrary", () => {
       )
     </div>
   );
+
+  testAsync("FireEvent", finish => {
+    (<FireEventClick clickFx={
+      (_) => finish(expect(true) |> toBe(true));
+      }
+    />)
+    |> render
+    |> container
+    |> FireEvent.click;
+    }
+    );
 
   test("render works", () => {
     element
@@ -91,22 +106,5 @@ describe("ReactTestingLibrary", () => {
 
       pass;
     });
-  });
-
-  test("rerender works", () => {
-    let result = render(<Greeting message="hi" />);
-    let check = text =>
-      result
-        |> container
-        |> firstChild
-        |> innerHTML
-        |> expect
-        |> toEqual(text);
-
-    check("hi") |> ignore;
-
-    result |> rerender(<Greeting message="hey" />);
-
-    check("hey");
   });
 });

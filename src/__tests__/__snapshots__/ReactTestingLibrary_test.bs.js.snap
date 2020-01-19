@@ -13,6 +13,9 @@ Object {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
+      <div />
+    </div>
+    <div>
       <div>
         <h1
           data-testid="h1-heading"
