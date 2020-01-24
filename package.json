@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "@testing-library/react": "^8.0.5",
-    "bs-dom-testing-library": "^0.5.0"
+    "bs-dom-testing-library": "^0.5.1"
   },
   "peerDependencies": {
     "reason-react": "< 0.8.0"
